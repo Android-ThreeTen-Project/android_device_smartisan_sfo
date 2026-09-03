@@ -68,6 +68,7 @@ BOARD_MKBOOTIMG_ARGS               := --ramdisk_offset 0x01000000 --tags_offset 
 TARGET_KERNEL_SOURCE               := kernel/smartisan/msm8974
 TARGET_KERNEL_ARCH                 := arm
 TARGET_KERNEL_CONFIG               := sfo_defconfig
+TARGET_KERNEL_CLANG_COMPILE        := false
 BOARD_DTBTOOL_ARGS                 := -2
 
 # QCOM hardware
