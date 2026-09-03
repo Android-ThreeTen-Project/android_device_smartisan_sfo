@@ -103,6 +103,11 @@ int32_t QCameraStream::get_bufs_deffered(
         return NO_MEMORY;
     }
 
+    if (!stream->mStreamBufs || !stream->mRegFlags || !stream->mBufDefs) {
+        ALOGE("Deferred stream buffer allocation did not complete");
+        return NO_MEMORY;
+    }
+
     *initial_reg_flag   = stream->mRegFlags;
     *num_bufs           = stream->mNumBufs;
     *bufs               = stream->mBufDefs;

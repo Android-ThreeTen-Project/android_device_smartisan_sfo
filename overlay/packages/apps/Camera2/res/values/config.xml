@@ -18,6 +18,9 @@
 <!-- Camera app resources that may need to be customized
      for different hardware or product builds. -->
 <resources>
+    <!-- QCamera exposes SFO's M10MO rear sensor as camera ID 1. -->
+    <string name="pref_camera_id_default" translatable="false">1</string>
+
     <!-- The Smartisan KitKat camera daemon requires non-ZSL capture. -->
     <string name="pref_camera_zsl_default" translatable="false">off</string>
 
