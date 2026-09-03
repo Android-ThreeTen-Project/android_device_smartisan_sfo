@@ -70,6 +70,9 @@ TARGET_KERNEL_SOURCE               := kernel/smartisan/msm8974
 TARGET_KERNEL_ARCH                 := arm
 TARGET_KERNEL_CONFIG               := sfo_defconfig
 TARGET_KERNEL_CLANG_COMPILE        := false
+TARGET_KERNEL_ADDITIONAL_FLAGS    += HOSTCC="$(TARGET_KERNEL_CLANG_PATH)/bin/clang -B/usr/bin"
+TARGET_KERNEL_ADDITIONAL_FLAGS    += HOSTCXX="$(TARGET_KERNEL_CLANG_PATH)/bin/clang++ -B/usr/bin"
+TARGET_KERNEL_ADDITIONAL_FLAGS    += HOSTLDFLAGS="-L/usr/lib/x86_64-linux-gnu -L/usr/lib64"
 BOARD_DTBTOOL_ARGS                 := -2
 
 # QCOM hardware
@@ -155,6 +158,7 @@ WIFI_DRIVER_FW_PATH_AP           := "ap"
 WIFI_HIDL_FEATURE_DISABLE_AP_MAC_RANDOMIZATION := true
 WIFI_HIDL_UNIFIED_SUPPLICANT_SERVICE_RC_ENTRY := true
 TARGET_USES_QCOM_WCNSS_QMI       := true
+TARGET_PROVIDES_WCNSS_QMI        := true
 TARGET_USES_WCNSS_CTRL           := true
 
 # Filesystem
