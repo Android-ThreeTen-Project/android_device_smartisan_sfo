@@ -2395,8 +2395,8 @@ int QCamera2HardwareInterface::takePicture()
     int rc = NO_ERROR;
     uint8_t numSnapshots = mParameters.getNumOfSnapshots();
 
-    if (mParameters.isUbiFocusEnabled()|
-        mParameters.isOptiZoomEnabled()|
+    if (mParameters.isUbiFocusEnabled() ||
+        mParameters.isOptiZoomEnabled() ||
         mParameters.isChromaFlashEnabled()) {
         rc = configureBracketing();
         if (rc == NO_ERROR) {
@@ -2417,7 +2417,7 @@ int QCamera2HardwareInterface::takePicture()
                 ALOGE("%s: cannot start postprocessor", __func__);
                 return rc;
             }
-            if (mParameters.isUbiFocusEnabled()|
+            if (mParameters.isUbiFocusEnabled() ||
                 mParameters.isChromaFlashEnabled()) {
                 rc = startBracketing(pZSLChannel);
                 if (rc != NO_ERROR) {
@@ -2543,7 +2543,7 @@ int QCamera2HardwareInterface::takePicture()
                 QCameraPicChannel *pCapChannel =
                     (QCameraPicChannel *)m_channels[QCAMERA_CH_TYPE_CAPTURE];
                 if (NULL != pCapChannel) {
-                    if (mParameters.isUbiFocusEnabled()|
+                    if (mParameters.isUbiFocusEnabled() ||
                         mParameters.isChromaFlashEnabled()) {
                         rc = startBracketing(pCapChannel);
                         if (rc != NO_ERROR) {
@@ -5326,8 +5326,8 @@ bool QCamera2HardwareInterface::needReprocess()
         return true;
     }
 
-    if (mParameters.isUbiFocusEnabled() |
-        mParameters.isChromaFlashEnabled() |
+    if (mParameters.isUbiFocusEnabled() ||
+        mParameters.isChromaFlashEnabled() ||
         mParameters.isOptiZoomEnabled()) {
         ALOGD("%s: need reprocess for |UbiFocus=%d|ChramaFlash=%d|OptiZoom=%d|",
                                          __func__,
