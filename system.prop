@@ -88,6 +88,7 @@ persist.demo.hdmirotationlock=false
 ro.hdmi.enable=true
 ro.opengles.version=196609
 ro.sf.lcd_density=440
+debug.renderengine.backend=gles
 persist.hwc.mdpcomp.enable=true
 persist.timed.enable=true
 persist.sys.wfd.virtual=0
