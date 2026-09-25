@@ -210,7 +210,10 @@ OMX_API OMX_ERRORTYPE OMX_APIENTRY OMX_GetHandle(
 
   if (FALSE == p_core_comp->open) {
     /* load the library */
-    p_core_comp->lib_handle = dlopen(p_core_comp->lib_name, RTLD_NOW);
+    /* Legacy JPEG components leave thread cleanup callbacks behind. Keep their
+     * code mapped until process exit so callbacks remain valid after dlclose. */
+    p_core_comp->lib_handle = dlopen(p_core_comp->lib_name,
+      RTLD_NOW | RTLD_NODELETE);
     if (NULL == p_core_comp->lib_handle) {
       ALOGE("%s:%d] Cannot load %s: %s", __func__, __LINE__,
         p_core_comp->lib_name, dlerror());
