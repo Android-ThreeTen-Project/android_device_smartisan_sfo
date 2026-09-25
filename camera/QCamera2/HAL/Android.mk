@@ -56,7 +56,8 @@ LOCAL_SHARED_LIBRARIES += android.hardware.graphics.bufferqueue@1.0
 
 LOCAL_MODULE_RELATIVE_PATH := hw
 LOCAL_MODULE := camera.legacy.$(TARGET_BOARD_PLATFORM)
-LOCAL_VENDOR_MODULE := true
+# The legacy HAL links framework camera and GUI libraries on this non-Treble device.
+LOCAL_VENDOR_MODULE := false
 LOCAL_MODULE_TAGS := optional
 
 include $(BUILD_SHARED_LIBRARY)
