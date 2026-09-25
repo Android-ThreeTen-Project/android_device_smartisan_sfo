@@ -1,5 +1,9 @@
 LOCAL_PATH := device/smartisan/sfo
 
+# Android 14 netd requires the cgroup v2 hierarchy at /sys/fs/cgroup.
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/cgroups.json:$(TARGET_COPY_OUT_VENDOR)/etc/cgroups.json
+
 DEVICE_PACKAGE_OVERLAYS += \
     $(LOCAL_PATH)/overlay \
     $(LOCAL_PATH)/overlay-lineage

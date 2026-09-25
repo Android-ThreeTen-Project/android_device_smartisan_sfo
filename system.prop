@@ -1,4 +1,5 @@
 ro.vendor.extension_library=libqti-perfd-client.so
+ro.hardware.egl=adreno
 rild.libpath=/vendor/lib/libril-qc-qmi-1.so
 vendor.rild.libpath=/vendor/lib/libril-qc-qmi-1.so
 rild.libargs=-d /dev/smd0
