@@ -1262,7 +1262,7 @@ void QCamera2HardwareInterface::dumpMetadataToFile(QCameraStream *stream,
             snprintf(buf, sizeof(buf), "%dm_%s_%d.bin",
                                          mDumpFrmCnt,type,frame->frame_idx);
             filePath.append(buf);
-            int file_fd = open(filePath.string(), O_RDWR | O_CREAT, 0777);
+            int file_fd = open(filePath.c_str(), O_RDWR | O_CREAT, 0777);
             if (file_fd > 0) {
                 int written_len = 0;
                 metadata->tuning_params.tuning_data_version = TUNING_DATA_VERSION;
@@ -1408,7 +1408,7 @@ void QCamera2HardwareInterface::dumpFrameToFile(QCameraStream *stream,
                     }
 
                     filePath.append(buf);
-                    int file_fd = open(filePath.string(), O_RDWR | O_CREAT, 0777);
+                    int file_fd = open(filePath.c_str(), O_RDWR | O_CREAT, 0777);
                     if (file_fd > 0) {
                         void *data = NULL;
                         int written_len = 0;

@@ -3705,8 +3705,8 @@ int32_t QCameraParameters::initDefaultParameters()
         m_pCapability->preview_sizes_tbl_cnt <= MAX_SIZES_CNT) {
         String8 previewSizeValues = createSizesString(
                 m_pCapability->preview_sizes_tbl, m_pCapability->preview_sizes_tbl_cnt);
-        set(KEY_SUPPORTED_PREVIEW_SIZES, previewSizeValues.string());
-        ALOGD("%s: supported preview sizes: %s", __func__, previewSizeValues.string());
+        set(KEY_SUPPORTED_PREVIEW_SIZES, previewSizeValues.c_str());
+        ALOGD("%s: supported preview sizes: %s", __func__, previewSizeValues.c_str());
         // Set default preview size
         CameraParameters::setPreviewSize(m_pCapability->preview_sizes_tbl[0].width,
                                          m_pCapability->preview_sizes_tbl[0].height);
@@ -3719,15 +3719,15 @@ int32_t QCameraParameters::initDefaultParameters()
         m_pCapability->video_sizes_tbl_cnt <= MAX_SIZES_CNT) {
         String8 videoSizeValues = createSizesString(
                 m_pCapability->video_sizes_tbl, m_pCapability->video_sizes_tbl_cnt);
-        set(KEY_SUPPORTED_VIDEO_SIZES, videoSizeValues.string());
-        ALOGD("%s: supported video sizes: %s", __func__, videoSizeValues.string());
+        set(KEY_SUPPORTED_VIDEO_SIZES, videoSizeValues.c_str());
+        ALOGD("%s: supported video sizes: %s", __func__, videoSizeValues.c_str());
         // Set default video size
         CameraParameters::setVideoSize(m_pCapability->video_sizes_tbl[0].width,
                                        m_pCapability->video_sizes_tbl[0].height);
 
         //Set preferred Preview size for video
         String8 vSize = createSizesString(&m_pCapability->video_sizes_tbl[0], 1);
-        set(KEY_PREFERRED_PREVIEW_SIZE_FOR_VIDEO, vSize.string());
+        set(KEY_PREFERRED_PREVIEW_SIZE_FOR_VIDEO, vSize.c_str());
     } else {
         ALOGE("%s: supported video sizes cnt is 0 or exceeds max!!!", __func__);
     }
@@ -3737,8 +3737,8 @@ int32_t QCameraParameters::initDefaultParameters()
         m_pCapability->picture_sizes_tbl_cnt <= MAX_SIZES_CNT) {
         String8 pictureSizeValues = createSizesString(
                 m_pCapability->picture_sizes_tbl, m_pCapability->picture_sizes_tbl_cnt);
-        set(KEY_SUPPORTED_PICTURE_SIZES, pictureSizeValues.string());
-        ALOGD("%s: supported pic sizes: %s", __func__, pictureSizeValues.string());
+        set(KEY_SUPPORTED_PICTURE_SIZES, pictureSizeValues.c_str());
+        ALOGD("%s: supported pic sizes: %s", __func__, pictureSizeValues.c_str());
         // Set default picture size to the smallest resolution
         CameraParameters::setPictureSize(
            m_pCapability->picture_sizes_tbl[m_pCapability->picture_sizes_tbl_cnt-1].width,
@@ -3758,8 +3758,8 @@ int32_t QCameraParameters::initDefaultParameters()
         if(rc_s == NO_ERROR){
             String8 scaledPictureSizeValues = createSizesString(
                 m_pCapability->scale_picture_sizes, m_pCapability->scale_picture_sizes_cnt);
-            set(KEY_QC_SCALED_PICTURE_SIZES, scaledPictureSizeValues.string());
-            ALOGE("%s: scaled supported pic sizes: %s", __func__, scaledPictureSizeValues.string());
+            set(KEY_QC_SCALED_PICTURE_SIZES, scaledPictureSizeValues.c_str());
+            ALOGE("%s: scaled supported pic sizes: %s", __func__, scaledPictureSizeValues.c_str());
         }else{
             m_reprocScaleParam.setScaleEnable(false);
             ALOGE("%s: reset scaled picture size table failed.", __func__);
@@ -3772,7 +3772,7 @@ int32_t QCameraParameters::initDefaultParameters()
     String8 thumbnailSizeValues = createSizesString(
             THUMBNAIL_SIZES_MAP,
             sizeof(THUMBNAIL_SIZES_MAP)/sizeof(cam_dimension_t));
-    set(KEY_SUPPORTED_JPEG_THUMBNAIL_SIZES, thumbnailSizeValues.string());
+    set(KEY_SUPPORTED_JPEG_THUMBNAIL_SIZES, thumbnailSizeValues.c_str());
     // Set default thumnail size
     set(KEY_JPEG_THUMBNAIL_WIDTH, THUMBNAIL_SIZES_MAP[0].width);
     set(KEY_JPEG_THUMBNAIL_HEIGHT, THUMBNAIL_SIZES_MAP[0].height);
@@ -3783,8 +3783,8 @@ int32_t QCameraParameters::initDefaultParameters()
         String8 liveSnpashotSizeValues = createSizesString(
                 m_pCapability->livesnapshot_sizes_tbl,
                 m_pCapability->livesnapshot_sizes_tbl_cnt);
-        set(KEY_QC_SUPPORTED_LIVESNAPSHOT_SIZES, liveSnpashotSizeValues.string());
-        ALOGI("%s: supported live snapshot sizes: %s", __func__, liveSnpashotSizeValues.string());
+        set(KEY_QC_SUPPORTED_LIVESNAPSHOT_SIZES, liveSnpashotSizeValues.c_str());
+        ALOGI("%s: supported live snapshot sizes: %s", __func__, liveSnpashotSizeValues.c_str());
         m_LiveSnapshotSize =
             m_pCapability->livesnapshot_sizes_tbl[m_pCapability->livesnapshot_sizes_tbl_cnt-1];
     }
@@ -3795,7 +3795,7 @@ int32_t QCameraParameters::initDefaultParameters()
             m_pCapability->supported_preview_fmt_cnt,
             PREVIEW_FORMATS_MAP,
             sizeof(PREVIEW_FORMATS_MAP)/sizeof(QCameraMap));
-    set(KEY_SUPPORTED_PREVIEW_FORMATS, previewFormatValues.string());
+    set(KEY_SUPPORTED_PREVIEW_FORMATS, previewFormatValues.c_str());
     // Set default preview format
     CameraParameters::setPreviewFormat(PIXEL_FORMAT_YUV420SP);
 
@@ -3809,12 +3809,12 @@ int32_t QCameraParameters::initDefaultParameters()
             m_pCapability->supported_raw_fmt_cnt,
             PICTURE_TYPES_MAP,
             sizeof(PICTURE_TYPES_MAP)/sizeof(QCameraMap));
-    if (str.string() != NULL) {
+    if (!str.empty()) {
         pictureTypeValues.append(",");
         pictureTypeValues.append(str);
     }
 
-    set(KEY_SUPPORTED_PICTURE_FORMATS, pictureTypeValues.string());
+    set(KEY_SUPPORTED_PICTURE_FORMATS, pictureTypeValues.c_str());
     // Set default picture Format
     CameraParameters::setPictureFormat(PIXEL_FORMAT_JPEG);
     // Set raw image size
@@ -3834,8 +3834,8 @@ int32_t QCameraParameters::initDefaultParameters()
         String8 fpsRangeValues = createFpsRangeString(m_pCapability->fps_ranges_tbl,
                                                       m_pCapability->fps_ranges_tbl_cnt,
                                                       default_fps_index);
-        set(KEY_SUPPORTED_PREVIEW_FPS_RANGE, fpsRangeValues.string());
-        ALOGD("%s: supported fps ranges: %s", __func__, fpsRangeValues.string());
+        set(KEY_SUPPORTED_PREVIEW_FPS_RANGE, fpsRangeValues.c_str());
+        ALOGD("%s: supported fps ranges: %s", __func__, fpsRangeValues.c_str());
 
         int min_fps =
             int(m_pCapability->fps_ranges_tbl[default_fps_index].min_fps * 1000);
@@ -3847,8 +3847,8 @@ int32_t QCameraParameters::initDefaultParameters()
 
         // Set legacy preview fps
         String8 fpsValues = createFpsString(m_pCapability->fps_ranges_tbl[default_fps_index]);
-        set(KEY_SUPPORTED_PREVIEW_FRAME_RATES, fpsValues.string());
-        ALOGD("%s: supported fps rates: %s", __func__, fpsValues.string());
+        set(KEY_SUPPORTED_PREVIEW_FRAME_RATES, fpsValues.c_str());
+        ALOGD("%s: supported fps rates: %s", __func__, fpsValues.c_str());
         CameraParameters::setPreviewFrameRate(int(m_pCapability->fps_ranges_tbl[default_fps_index].max_fps));
     } else {
         ALOGE("%s: supported fps ranges cnt is 0 or exceeds max!!!", __func__);
@@ -3930,7 +3930,7 @@ int32_t QCameraParameters::initDefaultParameters()
             m_pCapability->supported_aec_modes_cnt,
             AUTO_EXPOSURE_MAP,
             sizeof(AUTO_EXPOSURE_MAP) / sizeof(QCameraMap));
-    set(KEY_QC_SUPPORTED_AUTO_EXPOSURE, autoExposureValues.string());
+    set(KEY_QC_SUPPORTED_AUTO_EXPOSURE, autoExposureValues.c_str());
     setAutoExposure(AUTO_EXPOSURE_FRAME_AVG);
 
     // Set Exposure Compensation
@@ -4003,12 +4003,12 @@ int32_t QCameraParameters::initDefaultParameters()
             m_pCapability->hfr_tbl_cnt,
             HFR_MODES_MAP,
             sizeof(HFR_MODES_MAP) / sizeof(QCameraMap));
-    set(KEY_QC_SUPPORTED_VIDEO_HIGH_FRAME_RATE_MODES, hfrValues.string());
+    set(KEY_QC_SUPPORTED_VIDEO_HIGH_FRAME_RATE_MODES, hfrValues.c_str());
     set(KEY_QC_VIDEO_HIGH_SPEED_RECORDING, "off");
     String8 hfrSizeValues = createHfrSizesString(
             m_pCapability->hfr_tbl,
             m_pCapability->hfr_tbl_cnt);
-    set(KEY_QC_SUPPORTED_HFR_SIZES, hfrSizeValues.string());
+    set(KEY_QC_SUPPORTED_HFR_SIZES, hfrSizeValues.c_str());
     setHighFrameRate(VIDEO_HFR_OFF);
 
     // Set Focus algorithms
@@ -4077,7 +4077,7 @@ int32_t QCameraParameters::initDefaultParameters()
     if ((m_pCapability->qcom_supported_feature_mask & CAM_QCOM_FEATURE_DENOISE2D) > 0){
     String8 denoiseValues = createValuesStringFromMap(
        DENOISE_ON_OFF_MODES_MAP, sizeof(DENOISE_ON_OFF_MODES_MAP) / sizeof(QCameraMap));
-    set(KEY_QC_SUPPORTED_DENOISE, denoiseValues.string());
+    set(KEY_QC_SUPPORTED_DENOISE, denoiseValues.c_str());
 #ifdef DEFAULT_DENOISE_MODE_ON
     setWaveletDenoise(DENOISE_ON);
 #else
@@ -7235,8 +7235,8 @@ int32_t QCameraParameters::updateFocusDistances(cam_focus_distances_info_t *focu
         snprintf(buffer, sizeof(buffer), ",%f", focusDistances->focus_distance[2]);
         str.append(buffer);
     }
-    ALOGD("%s: setting KEY_FOCUS_DISTANCES as %s", __FUNCTION__, str.string());
-    set(QCameraParameters::KEY_FOCUS_DISTANCES, str.string());
+    ALOGD("%s: setting KEY_FOCUS_DISTANCES as %s", __FUNCTION__, str.c_str());
+    set(QCameraParameters::KEY_FOCUS_DISTANCES, str.c_str());
     return NO_ERROR;
 }
 

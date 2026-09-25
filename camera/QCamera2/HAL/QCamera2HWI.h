@@ -47,26 +47,6 @@
 #include "QCameraThermalAdapter.h"
 #include "QCameraMem.h"
 
-/* Qualcomm camera1 extensions removed from the platform camera header. */
-enum {
-    CAMERA_MSG_STATS_DATA = 0x1000,
-    CAMERA_MSG_META_DATA = 0x2000,
-};
-
-enum {
-    CAMERA_META_DATA_ASD = 0x001,
-    CAMERA_META_DATA_FD = 0x002,
-    CAMERA_META_DATA_HDR = 0x003,
-};
-
-enum {
-    CAMERA_CMD_HISTOGRAM_ON = 20,
-    CAMERA_CMD_HISTOGRAM_OFF = 21,
-    CAMERA_CMD_HISTOGRAM_SEND_DATA = 22,
-    CAMERA_CMD_LONGSHOT_ON = 23,
-    CAMERA_CMD_LONGSHOT_OFF = 24,
-};
-
 extern "C" {
 #include <mm_camera_interface.h>
 #include <mm_jpeg_interface.h>

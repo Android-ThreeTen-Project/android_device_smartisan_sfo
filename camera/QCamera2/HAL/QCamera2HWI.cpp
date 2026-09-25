@@ -2463,11 +2463,11 @@ int QCamera2HardwareInterface::takePicture()
                     tmp.append(",");
             }
 
-            if( !tmp.isEmpty() &&
+            if( !tmp.empty() &&
                 ( MAX_EXP_BRACKETING_LENGTH > tmp.length() ) ) {
                 //Trim last comma
                 memset(aeBracket.values, '\0', MAX_EXP_BRACKETING_LENGTH);
-                memcpy(aeBracket.values, tmp.string(), tmp.length() - 1);
+                memcpy(aeBracket.values, tmp.c_str(), tmp.length() - 1);
             }
 
             ALOGE("%s : HDR config values %s",
@@ -2799,7 +2799,7 @@ char* QCamera2HardwareInterface::getParameters()
     strParams = (char *)malloc(sizeof(char)*(str.length()+1));
     if(strParams != NULL){
         memset(strParams, 0, sizeof(char)*(str.length()+1));
-        strncpy(strParams, str.string(), str.length());
+        strncpy(strParams, str.c_str(), str.length());
         strParams[str.length()] = 0;
     }
 
