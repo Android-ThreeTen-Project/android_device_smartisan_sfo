@@ -83,7 +83,7 @@ PRODUCT_PACKAGES += \
 
 #USB HAL
 PRODUCT_PACKAGES += \
-    android.hardware.usb@1.0-service.basic
+    android.hardware.usb@1.3-service.basic
 
 # WiFi
 PRODUCT_COPY_FILES += \
@@ -256,10 +256,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     sensors.msm8974 \
     android.hardware.sensors@1.0-impl
-
-# Trust HAL
-PRODUCT_PACKAGES += \
-    vendor.lineage.trust@1.0-service
 
 # ANT+
 PRODUCT_PACKAGES += \
