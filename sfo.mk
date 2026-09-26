@@ -247,7 +247,7 @@ PRODUCT_PACKAGES += \
 # Radio
 PRODUCT_PACKAGES += \
     android.hardware.radio.config@1.0-service \
-    libaudioclient_shim \
+    libaudioclient_sfo_shim \
     libshim_powermanager \
     librmnetctl
     

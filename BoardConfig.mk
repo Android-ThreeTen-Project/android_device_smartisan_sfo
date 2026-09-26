@@ -243,6 +243,6 @@ BOARD_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy
 # Shim
 TARGET_LD_SHIM_LIBS := \
     /system/vendor/lib/libmm-abl.so|libshim_powermanager.so \
-    /system/vendor/lib/libril-qc-qmi-1.so|libaudioclient_shim.so
+    /system/vendor/lib/libril-qc-qmi-1.so|libaudioclient_sfo_shim.so
 
 -include vendor/smartisan/sfo/BoardConfigVendor.mk
