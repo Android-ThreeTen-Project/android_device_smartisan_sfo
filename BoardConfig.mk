@@ -100,6 +100,7 @@ AUDIO_FEATURE_ENABLED_SPKR_PROTECTION      := true
 AUDIO_FEATURE_ENABLED_MULTI_VOICE_SESSIONS := true
 
 # Bluetooth
+PRODUCT_SOONG_NAMESPACES += hardware/qcom-caf/bt/libbt-vendor
 BOARD_HAVE_BLUETOOTH                        := true
 BOARD_HAVE_BLUETOOTH_QCOM                   := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
