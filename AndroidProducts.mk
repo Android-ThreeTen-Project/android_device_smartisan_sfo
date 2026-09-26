@@ -17,6 +17,6 @@ PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/lineage_sfo.mk
 
 COMMON_LUNCH_CHOICES := \
-    lineage_sfo-user \
-    lineage_sfo-userdebug \
-    lineage_sfo-eng
+    lineage_sfo-ap4a-user \
+    lineage_sfo-ap4a-userdebug \
+    lineage_sfo-ap4a-eng
