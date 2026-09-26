@@ -47,6 +47,6 @@ PRODUCT_GMS_CLIENTID_BASE := android-smartisan
 BUILD_FINGERPRINT=smartisan/msm8974sfo_lte/msm8974sfo_lte:4.4.2/SANFRANCISCO:user/dev-keys
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
-    TARGET_DEVICE="msm8974sfo_lte" \
-    PRODUCT_NAME="msm8974sfo_lte" \
-    PRIVATE_BUILD_DESC="msm8974sfo_lte-user 4.4.2 SANFRANCISCO dev-keys"
+    DeviceName="msm8974sfo_lte" \
+    DeviceProduct="msm8974sfo_lte" \
+    BuildDesc="msm8974sfo_lte-user 4.4.2 SANFRANCISCO dev-keys"
