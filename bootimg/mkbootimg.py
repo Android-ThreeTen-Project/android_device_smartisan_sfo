@@ -5,9 +5,9 @@
 
 import argparse
 import hashlib
-import lzma
 import os
 import struct
+import subprocess
 import sys
 import tempfile
 from pathlib import Path
@@ -30,16 +30,16 @@ def main():
     if legacy.recovery_xz_armthumb:
         # The kernel enables CONFIG_XZ_DEC_ARMTHUMB. Preserve the CPIO contents,
         # CRC32 and 32 MiB dictionary, adding BCJ filtering for recovery only.
-        raw = lzma.decompress(args.ramdisk.read(), format=lzma.FORMAT_XZ)
-        packed = lzma.compress(raw, format=lzma.FORMAT_XZ,
-                               check=lzma.CHECK_CRC32, filters=[
-            {"id": lzma.FILTER_ARMTHUMB},
-            {"id": lzma.FILTER_LZMA2, "preset": 9 | lzma.PRESET_EXTREME,
-             "dict_size": 32 * 1024 * 1024},
-        ])
+        # Host xz is an allowed Soong PATH tool. The build's Python omits _lzma,
+        # and its prebuilt xz omits the ARM-Thumb encoder.
+        raw = subprocess.check_output(["xz", "--decompress", "--stdout"],
+                                      input=args.ramdisk.read())
         args.ramdisk.close()
         args.ramdisk = tempfile.TemporaryFile()
-        args.ramdisk.write(packed)
+        subprocess.run(["xz", "--compress", "--stdout", "--threads=1",
+                        "--check=crc32", "--armthumb",
+                        "--lzma2=preset=9e,dict=32MiB"],
+                       input=raw, stdout=args.ramdisk, check=True)
         args.ramdisk.seek(0)
 
     dt_path = legacy.dt or Path(args.kernel.name).parent / "dt.img"
