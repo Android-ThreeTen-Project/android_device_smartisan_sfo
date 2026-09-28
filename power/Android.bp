@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: Apache-2.0
+cc_binary {
+    name: "android.hardware.power-service.sfo",
+    defaults: ["android.hardware.power-ndk_shared"],
+    vendor: true,
+    relative_install_path: "hw",
+    init_rc: ["android.hardware.power-service.sfo.rc"],
+    vintf_fragments: ["android.hardware.power-service.sfo.xml"],
+    required: ["powerhint-sfo.json"],
+    srcs: ["service.cpp"],
+    static_libs: [
+        "//hardware/google/pixel:libperfmgr",
+        "//hardware/google/pixel:powerhal_flags-aconfig-cc",
+    ],
+    shared_libs: [
+        "libbase",
+        "libbinder_ndk",
+        "libcutils",
+        "liblog",
+        "libprocessgroup",
+        "libutils",
+    ],
+    cflags: ["-Wall", "-Wextra", "-Werror"],
+}
+
+prebuilt_etc {
+    name: "powerhint-sfo.json",
+    vendor: true,
+    src: "powerhint.json",
+    filename: "powerhint-sfo.json",
+}

@@ -84,7 +84,7 @@ PRODUCT_PACKAGES += \
 
 # Power
 PRODUCT_PACKAGES += \
-    android.hardware.power-service-qti
+    android.hardware.power-service.sfo
 
 # Privapp Whitelist
 PRODUCT_COPY_FILES += \

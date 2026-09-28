@@ -1,0 +1,5 @@
+# Limit the device Power HAL to its dedicated cpu-boost request.
+type sysfs_sfo_power_boost, fs_type, sysfs_type;
+allow hal_power_default sysfs_sfo_power_boost:file rw_file_perms;
+allow hal_power_default sysfs_cpu_boost:dir search;
+allow vendor_init sysfs_sfo_power_boost:file setattr;

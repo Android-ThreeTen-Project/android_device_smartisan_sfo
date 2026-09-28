@@ -1,0 +1,8 @@
+service vendor.power-sfo /vendor/bin/hw/android.hardware.power-service.sfo
+    class hal
+    user system
+    group system
+
+on post-fs
+    chown system system /sys/module/cpu_boost/parameters/hal_boost_freq
+    chmod 0664 /sys/module/cpu_boost/parameters/hal_boost_freq

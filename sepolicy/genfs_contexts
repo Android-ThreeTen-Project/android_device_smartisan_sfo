@@ -1,0 +1,1 @@
+genfscon sysfs /module/cpu_boost/parameters/hal_boost_freq u:object_r:sysfs_sfo_power_boost:s0

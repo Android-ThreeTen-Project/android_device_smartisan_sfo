@@ -1,0 +1,29 @@
+{
+    "Nodes": [
+        {
+            "Name": "CpuBoost",
+            "Path": "/sys/module/cpu_boost/parameters/hal_boost_freq",
+            "Values": [
+                "1497600",
+                "1190400",
+                "0"
+            ],
+            "DefaultIndex": 2,
+            "ResetOnInit": true
+        }
+    ],
+    "Actions": [
+        {
+            "PowerHint": "INTERACTION",
+            "Node": "CpuBoost",
+            "Value": "1190400",
+            "Duration": 250
+        },
+        {
+            "PowerHint": "LAUNCH",
+            "Node": "CpuBoost",
+            "Value": "1497600",
+            "Duration": 5000
+        }
+    ]
+}
