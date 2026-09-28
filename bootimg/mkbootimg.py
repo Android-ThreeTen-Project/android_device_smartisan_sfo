@@ -17,6 +17,8 @@ def main():
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument("--dt", type=Path)
     parser.add_argument("--recovery-xz-armthumb", action="store_true")
+    parser.add_argument("--recovery-xz-tool", type=Path,
+                        default=Path("/usr/bin/xz"))
     legacy, remaining = parser.parse_known_args()
     root = Path(__file__).resolve().parents[4]
     sys.path.insert(0, str(root / "system/tools/mkbootimg"))
@@ -30,13 +32,14 @@ def main():
     if legacy.recovery_xz_armthumb:
         # The kernel enables CONFIG_XZ_DEC_ARMTHUMB. Preserve the CPIO contents,
         # CRC32 and 32 MiB dictionary, adding BCJ filtering for recovery only.
-        # Host xz is an allowed Soong PATH tool. The build's Python omits _lzma,
-        # and its prebuilt xz omits the ARM-Thumb encoder.
-        raw = subprocess.check_output(["xz", "--decompress", "--stdout"],
+        # The build's Python omits _lzma and its PATH xz omits the ARM-Thumb
+        # encoder. Use the full host xz-utils installation explicitly.
+        xz = str(legacy.recovery_xz_tool)
+        raw = subprocess.check_output([xz, "--decompress", "--stdout"],
                                       input=args.ramdisk.read())
         args.ramdisk.close()
         args.ramdisk = tempfile.TemporaryFile()
-        subprocess.run(["xz", "--compress", "--stdout", "--threads=1",
+        subprocess.run([xz, "--compress", "--stdout", "--threads=1",
                         "--check=crc32", "--armthumb",
                         "--lzma2=preset=9e,dict=32MiB"],
                        input=raw, stdout=args.ramdisk, check=True)

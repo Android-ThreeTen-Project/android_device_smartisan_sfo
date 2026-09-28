@@ -18,6 +18,6 @@ with the ARM-Thumb BCJ filter and the extreme XZ preset. The kernel enables
 This keeps the complete recovery image within its physical 16,384,000-byte
 partition. The normal boot ramdisk keeps the platform compression settings.
 
-Compression uses the host `xz` command, which Soong permits in its PATH. Install
-the usual `xz-utils` build dependency with ARM-Thumb encoding support. Android's
-prebuilt Python lacks `_lzma`, and its prebuilt XZ omits that encoder.
+Compression uses `/usr/bin/xz` from the usual `xz-utils` build dependency, with
+ARM-Thumb encoding support. `--recovery-xz-tool` can select another host path.
+Android's prebuilt Python lacks `_lzma`, and its PATH XZ omits that encoder.
