@@ -21,6 +21,9 @@ persist.cne.feature=0
 
 # eBPF support
 ro.kernel.ebpf.supported=true
+# Select the backported networking BPF ABI and allow ARM32 interpreter fallback.
+ro.bpf.kver_override=5.4.186
+ro.bpf.allow_32bit=true
 
 persist.data.qmi.adb_logmask=0
 
