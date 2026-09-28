@@ -272,7 +272,7 @@ PRODUCT_PACKAGES += \
 
 # ANT+
 PRODUCT_PACKAGES += \
-    AntHalService \
+    AntHalService_sfo \
     libantradio
 
 # Permissions
