@@ -62,6 +62,15 @@ PRODUCT_PACKAGES += \
     android.hardware.camera.provider@2.4-impl \
     android.hardware.camera.provider@2.4-service
 
+# Dependencies used by legacy vendor camera/display, netmgrd and RIL blobs.
+PRODUCT_PACKAGES += \
+    libgui.vendor \
+    libnetutils.vendor \
+    libsqlite.vendor \
+    libxml2.vendor \
+    libsensorndkbridge \
+    libstdc++_vendor
+
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/external_camera_config.xml:system/vendor/etc/external_camera_config.xml
 

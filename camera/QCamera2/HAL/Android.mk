@@ -44,20 +44,24 @@ LOCAL_C_INCLUDES := \
     $(LOCAL_PATH)/wrapper \
     system/media/camera/include
 
-LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
+LOCAL_CFLAGS += -idirafter $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
 LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include/media
 LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
 
+# The legacy HAL only uses CameraParameters from libcamera_client. Compile that
+# class locally so the vendor HAL does not require the private system library.
+LOCAL_SRC_FILES += ../../../../../../frameworks/av/camera/CameraParameters.cpp
+LOCAL_C_INCLUDES += frameworks/av/camera/include
+LOCAL_HEADER_LIBRARIES := media_plugin_headers
 LOCAL_STATIC_LIBRARIES := libbase libarect
-LOCAL_SHARED_LIBRARIES := libcamera_client liblog libhardware libutils libcutils libdl libgui libsensor
+LOCAL_SHARED_LIBRARIES := liblog libhardware libutils libcutils libdl libgui libui
 LOCAL_SHARED_LIBRARIES += libmmcamera_interface libmmjpeg_interface libnativewindow
 LOCAL_SHARED_LIBRARIES += android.hidl.token@1.0-utils
 LOCAL_SHARED_LIBRARIES += android.hardware.graphics.bufferqueue@1.0
 
 LOCAL_MODULE_RELATIVE_PATH := hw
 LOCAL_MODULE := camera.legacy.$(TARGET_BOARD_PLATFORM)
-# The legacy HAL links framework camera and GUI libraries on this non-Treble device.
-LOCAL_VENDOR_MODULE := false
+LOCAL_VENDOR_MODULE := true
 LOCAL_MODULE_TAGS := optional
 
 include $(BUILD_SHARED_LIBRARY)

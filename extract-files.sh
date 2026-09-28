@@ -51,6 +51,21 @@ fi
 
 function blob_fixup() {
     case "${1}" in
+        vendor/lib/libril-qc-qmi-1.so)
+            # The vendor shim provides all three legacy AudioSystem imports.
+            "${PATCHELF}" --remove-needed libmedia.so "${2}"
+            if ! "${PATCHELF}" --print-needed "${2}" | grep -qx libaudioclient_sfo_shim.so; then
+                "${PATCHELF}" --add-needed libaudioclient_sfo_shim.so "${2}"
+            fi
+            ;;
+        vendor/bin/mm-pp-daemon|vendor/lib/libarcsoft_panorama_burstcapture.so)
+            # Only NDK sensor/looper imports are used from libandroid.
+            "${PATCHELF}" --replace-needed libandroid.so libsensorndkbridge.so "${2}"
+            ;;
+        vendor/lib/libarcsoft_asd.so|vendor/lib/libarcsoft_beauty_shot.so|vendor/lib/libarcsoft_night_shot.so)
+            # These blobs do not import any libandroid symbols.
+            "${PATCHELF}" --remove-needed libandroid.so "${2}"
+            ;;
         vendor/lib/libmmqjpeg_codec.so)
             "${PATCHELF}" --add-needed "libkkcomp.so" "${2}"
             ;;
