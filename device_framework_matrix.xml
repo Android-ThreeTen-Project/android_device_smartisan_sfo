@@ -39,6 +39,15 @@
             <instance>default</instance>
         </interface>
     </hal>
+    <!-- Retain the legacy interface in build metadata alongside the AIDL HAL. -->
+    <hal format="hidl" optional="true">
+        <name>android.hardware.vibrator</name>
+        <version>1.0</version>
+        <interface>
+            <name>IVibrator</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
     <hal format="aidl" optional="true">
         <name>android.hardware.vibrator</name>
         <version>2</version>
