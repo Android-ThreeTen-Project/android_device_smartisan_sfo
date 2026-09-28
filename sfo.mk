@@ -222,7 +222,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     resize2fs \
     e2fsck_static \
-    resize2fs_static
 
 # Graphics
 PRODUCT_PACKAGES += \
