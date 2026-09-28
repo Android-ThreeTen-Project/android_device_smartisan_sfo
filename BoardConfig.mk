@@ -61,10 +61,17 @@ USE_REDUCED_CJK_FONT_WEIGHTS := true
 # Kernel
 BOARD_KERNEL_CMDLINE               := console=none vmalloc=340M androidboot.hardware=qcom msm_rtb.filter=0x3b7 ehci-hcd.park=3 androidboot.bootdevice=msm_sdcc.1 androidboot.selinux=permissive
 BOARD_RAMDISK_USE_XZ               := true
-BOARD_KERNEL_SEPARATED_DT          := true
 BOARD_KERNEL_BASE                  := 0x00000000
 BOARD_KERNEL_PAGESIZE              := 2048
+# SFO aboot's appended-DTB parser only understands the old three-cell MSM ID.
+# Keep the v2 QCDT table used by the working recovery for board/subtype matching.
 BOARD_KERNEL_IMAGE_NAME            := zImage
+BOARD_KERNEL_SEPARATED_DT          := true
+BOARD_DTBTOOL_ARGS                 := -2
+BOARD_CUSTOM_MKBOOTIMG             := $(DEVICE_PATH)/bootimg/mkbootimg.py
+# Preserve these legacy images when target-files/OTA tools package the ROM.
+BOARD_CUSTOM_BOOTIMG               := true
+BOARD_COPY_BOOT_IMAGE_TO_TARGET_FILES := true
 BOARD_MKBOOTIMG_ARGS               := --ramdisk_offset 0x01000000 --tags_offset 0x00000100
 TARGET_KERNEL_SOURCE               := kernel/smartisan/msm8974
 TARGET_KERNEL_ARCH                 := arm
@@ -73,7 +80,6 @@ TARGET_KERNEL_CLANG_COMPILE        := false
 TARGET_KERNEL_ADDITIONAL_FLAGS    += HOSTCC="$(TARGET_KERNEL_CLANG_PATH)/bin/clang -B/usr/bin"
 TARGET_KERNEL_ADDITIONAL_FLAGS    += HOSTCXX="$(TARGET_KERNEL_CLANG_PATH)/bin/clang++ -B/usr/bin"
 TARGET_KERNEL_ADDITIONAL_FLAGS    += HOSTLDFLAGS="-L/usr/lib/x86_64-linux-gnu -L/usr/lib64"
-BOARD_DTBTOOL_ARGS                 := -2
 
 # QCOM hardware
 BOARD_USES_QCOM_HARDWARE            := true

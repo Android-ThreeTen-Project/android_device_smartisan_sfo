@@ -18,6 +18,9 @@ LOCAL_PATH := $(call my-dir)
 
 ifeq ($(TARGET_DEVICE),sfo)
 
+# The standard Android rule does not depend on Lineage's legacy dt.img.
+$(PRODUCT_OUT)/boot.img $(PRODUCT_OUT)/recovery.img: $(PRODUCT_OUT)/dt.img
+
 include $(call all-makefiles-under,$(LOCAL_PATH))
 
 include $(CLEAR_VARS)
