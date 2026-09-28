@@ -11,3 +11,9 @@ command line and OS version. It then writes the legacy DT size at header offset
 
 `BOARD_CUSTOM_BOOTIMG` keeps the resulting images in `BOOTABLE_IMAGES` in the
 target-files package, so OTA tools use the generated legacy images.
+
+Recovery alone uses `--recovery-xz-armthumb` to recompress its unchanged CPIO
+with the ARM-Thumb BCJ filter and the extreme XZ preset. The kernel enables
+`CONFIG_XZ_DEC_ARMTHUMB`; CRC32 and the existing 32 MiB dictionary are preserved.
+This keeps the complete recovery image within its physical 16,384,000-byte
+partition. The normal boot ramdisk keeps the platform compression settings.

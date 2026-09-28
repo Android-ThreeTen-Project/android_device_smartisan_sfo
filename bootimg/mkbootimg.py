@@ -5,15 +5,18 @@
 
 import argparse
 import hashlib
+import lzma
 import os
 import struct
 import sys
+import tempfile
 from pathlib import Path
 
 
 def main():
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument("--dt", type=Path)
+    parser.add_argument("--recovery-xz-armthumb", action="store_true")
     legacy, remaining = parser.parse_known_args()
     root = Path(__file__).resolve().parents[4]
     sys.path.insert(0, str(root / "system/tools/mkbootimg"))
@@ -23,6 +26,21 @@ def main():
     args = mkbootimg.parse_cmdline()
     if args.header_version != 0 or args.vendor_boot is not None:
         parser.error("SFO requires a legacy boot image without vendor_boot")
+
+    if legacy.recovery_xz_armthumb:
+        # The kernel enables CONFIG_XZ_DEC_ARMTHUMB. Preserve the CPIO contents,
+        # CRC32 and 32 MiB dictionary, adding BCJ filtering for recovery only.
+        raw = lzma.decompress(args.ramdisk.read(), format=lzma.FORMAT_XZ)
+        packed = lzma.compress(raw, format=lzma.FORMAT_XZ,
+                               check=lzma.CHECK_CRC32, filters=[
+            {"id": lzma.FILTER_ARMTHUMB},
+            {"id": lzma.FILTER_LZMA2, "preset": 9 | lzma.PRESET_EXTREME,
+             "dict_size": 32 * 1024 * 1024},
+        ])
+        args.ramdisk.close()
+        args.ramdisk = tempfile.TemporaryFile()
+        args.ramdisk.write(packed)
+        args.ramdisk.seek(0)
 
     dt_path = legacy.dt or Path(args.kernel.name).parent / "dt.img"
     if not dt_path.is_file() and legacy.dt is None:
@@ -63,6 +81,8 @@ def main():
     args.output.write(dt)
     mkbootimg.pad_file(args.output, args.pagesize)
     args.output.close()
+    if args.ramdisk is not None:
+        args.ramdisk.close()
 
 
 if __name__ == "__main__":
