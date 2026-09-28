@@ -54,6 +54,10 @@ on fs
 
     mount vfat /dev/block/platform/msm_sdcc.1/by-name/modem /firmware ro shortname=lower,uid=1000,gid=1000,dmask=227,fmask=337
 
+    # Load mounted Qualcomm firmware through the kernel's VFS loader. The
+    # legacy sysfs fallback can lose a segment's loading node on this kernel.
+    write /sys/module/firmware_class/parameters/path /firmware/image
+
 on post-fs-data
     mkdir /data/tombstones 0771 system system
     mkdir /tombstones/modem 0771 system system
