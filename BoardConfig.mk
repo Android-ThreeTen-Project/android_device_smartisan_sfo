@@ -73,8 +73,8 @@ BOARD_CUSTOM_MKBOOTIMG             := $(DEVICE_PATH)/bootimg/mkbootimg.py
 BOARD_CUSTOM_BOOTIMG               := true
 BOARD_COPY_BOOT_IMAGE_TO_TARGET_FILES := true
 BOARD_MKBOOTIMG_ARGS               := --ramdisk_offset 0x01000000 --tags_offset 0x00000100
-# Keep the full recovery ramdisk within the physical 16,384,000-byte partition.
-BOARD_RECOVERY_MKBOOTIMG_ARGS       := $(BOARD_MKBOOTIMG_ARGS) --recovery-xz-armthumb
+# Fit Recovery and the OTA size reserve within the 16,384,000-byte partition.
+BOARD_RECOVERY_MKBOOTIMG_ARGS       := $(BOARD_MKBOOTIMG_ARGS) --recovery-xz-armthumb --recovery-no-editor
 TARGET_KERNEL_SOURCE               := kernel/smartisan/msm8974
 TARGET_KERNEL_ARCH                 := arm
 TARGET_KERNEL_CONFIG               := sfo_defconfig

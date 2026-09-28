@@ -13,10 +13,35 @@ import tempfile
 from pathlib import Path
 
 
+def without_recovery_editor(raw):
+    """Remove nano and its exclusive files from a newc ramdisk."""
+    parts = []
+    offset = 0
+    while offset < len(raw):
+        start = offset
+        header = raw[start:start + 110]
+        if header[:6] not in (b"070701", b"070702"):
+            raise ValueError("recovery ramdisk is not a newc archive")
+        fields = [int(header[i:i + 8], 16) for i in range(6, 110, 8)]
+        file_size, name_size = fields[6], fields[11]
+        name = raw[start + 110:start + 110 + name_size - 1].decode()
+        data_start = (start + 110 + name_size + 3) & ~3
+        offset = (data_start + file_size + 3) & ~3
+        if name == "TRAILER!!!":
+            parts.append(raw[start:])
+            break
+        if (name not in ("system/bin/nano", "system/lib/libncurses_recovery.so",
+                         "system/etc/nano", "system/etc/terminfo")
+                and not name.startswith(("system/etc/nano/", "system/etc/terminfo/"))):
+            parts.append(raw[start:offset])
+    return b"".join(parts)
+
+
 def main():
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument("--dt", type=Path)
     parser.add_argument("--recovery-xz-armthumb", action="store_true")
+    parser.add_argument("--recovery-no-editor", action="store_true")
     parser.add_argument("--recovery-xz-tool", type=Path,
                         default=Path("/usr/bin/xz"))
     legacy, remaining = parser.parse_known_args()
@@ -30,13 +55,15 @@ def main():
         parser.error("SFO requires a legacy boot image without vendor_boot")
 
     if legacy.recovery_xz_armthumb:
-        # The kernel enables CONFIG_XZ_DEC_ARMTHUMB. Preserve the CPIO contents,
-        # CRC32 and 32 MiB dictionary, adding BCJ filtering for recovery only.
+        # The kernel enables CONFIG_XZ_DEC_ARMTHUMB. Keep CRC32 and the 32 MiB
+        # dictionary, adding BCJ filtering for recovery only.
         # The build's Python omits _lzma and its PATH xz omits the ARM-Thumb
         # encoder. Use the full host xz-utils installation explicitly.
         xz = str(legacy.recovery_xz_tool)
         raw = subprocess.check_output([xz, "--decompress", "--stdout"],
                                       input=args.ramdisk.read())
+        if legacy.recovery_no_editor:
+            raw = without_recovery_editor(raw)
         args.ramdisk.close()
         args.ramdisk = tempfile.TemporaryFile()
         subprocess.run([xz, "--compress", "--stdout", "--threads=1",
