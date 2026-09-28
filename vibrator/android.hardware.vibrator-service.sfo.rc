@@ -1,0 +1,4 @@
+service vendor.vibrator-sfo /vendor/bin/hw/android.hardware.vibrator-service.sfo
+    class hal
+    user system
+    group system
