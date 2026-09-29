@@ -1,0 +1,11 @@
+soong_namespace {
+}
+
+// Legacy Qualcomm blobs retain the original C++ runtime filename.
+install_symlink {
+    name: "sfo-libstdc++-link32",
+    vendor: true,
+    installed_location: "lib/libstdc++.so",
+    symlink_target: "libstdc++_vendor.so",
+    required: ["libstdc++_vendor"],
+}
